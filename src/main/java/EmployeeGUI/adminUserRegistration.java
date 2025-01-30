@@ -306,7 +306,7 @@ public class adminUserRegistration extends javax.swing.JFrame {
             String filename = "employees.txt";
             FileWriter fw = new FileWriter(filename, true);
             
-           StringBuilder userRecord = new StringBuilder();
+            StringBuilder userRecord = new StringBuilder();
            
            userRecord.append(userIDtxt.getText()).append(";")
            .append(usernametxt.getText()).append(";")
@@ -325,7 +325,7 @@ public class adminUserRegistration extends javax.swing.JFrame {
         fw.close();
         
         String filename2 = "loginCredentials.txt";
-        FileWriter fw2 = new FileWriter(filename2);
+        FileWriter fw2 = new FileWriter(filename2, true);
         fw.write(
                 userIDtxt.getText() + ";" +  usernametxt.getText()  + ";" + new String(passwordtxt.getPassword())  + ";" + rolecb.getSelectedItem().toString() + ";" + "\n"
                 );
