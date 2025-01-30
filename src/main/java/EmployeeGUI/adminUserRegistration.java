@@ -323,7 +323,13 @@ public class adminUserRegistration extends javax.swing.JFrame {
            
         fw.write(userRecord.toString());
         fw.close();
-           
+        
+        String filename2 = "loginCredentials.txt";
+        FileWriter fw2 = new FileWriter(filename2);
+        fw.write(
+                userIDtxt.getText() + ";" +  usernametxt.getText()  + ";" + new String(passwordtxt.getPassword())  + ";" + rolecb.getSelectedItem().toString() + ";" + "\n"
+                );
+                
         JOptionPane.showMessageDialog(null,"Account added successfully!");
         refreshData();
         }catch(IOException e){
