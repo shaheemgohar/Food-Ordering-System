@@ -272,8 +272,36 @@ public class adminUserRegistration extends javax.swing.JFrame {
     private void phonetxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phonetxtActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_phonetxtActionPerformed
-
+    
+    private boolean isUserIDUnique(String userID){
+        try{
+            String filename = "employees.txt";
+            BufferedReader br = new BufferedReader(new FileReader(filename));
+            String line;
+            
+            while((line=br.readLine())!=null){
+                String[] data = line.split(";");
+                
+                if(data[0].equals(userID)){
+                    br.close();
+                    return false;
+                }
+                
+            }
+            
+                br.close();
+                return true; //no duplicate found
+        }catch(IOException e){
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.getMessage());
+            return false; //if there's an issue reading the file, we assume the id is unique
+        }
+    }
+    
+    
     private void addbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addbtnActionPerformed
+        
+    if(isUserIDUnique(userIDtxt.getText())){    
         try{
             String filename = "employees.txt";
             FileWriter fw = new FileWriter(filename, true);
@@ -301,6 +329,9 @@ public class adminUserRegistration extends javax.swing.JFrame {
         }catch(IOException e){
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
+    }else{
+        JOptionPane.showMessageDialog(null, "Error: User ID already exists. Please choose a different ID.");
+    }
     }//GEN-LAST:event_addbtnActionPerformed
 
     private void deletebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deletebtnActionPerformed
