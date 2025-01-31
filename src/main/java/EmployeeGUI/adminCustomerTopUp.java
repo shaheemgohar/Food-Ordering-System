@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package EmployeeGUI;
 
 import java.io.BufferedReader;
@@ -12,15 +9,15 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
- *
  * @author DreamDreams
  */
-public class adminCustomerTopUp extends javax.swing.JFrame {
 
+public class adminCustomerTopUp extends javax.swing.JFrame {
 
     private String userID;
     private String amountAdded;
     private String updatedBalance;
+    private boolean addButtonPressed = false;
     
     public adminCustomerTopUp() {
         initComponents();
@@ -206,13 +203,13 @@ public class adminCustomerTopUp extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(currentBalancelbl, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel5))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(amounttxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(balanceAfterAddinglbl, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(balanceAfterAddinglbl, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(amounttxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addbtn)
@@ -261,7 +258,9 @@ public class adminCustomerTopUp extends javax.swing.JFrame {
         this.userID = userID;
         this.amountAdded = amounttxt.getText();
         this.updatedBalance = updatedBalance;
-            
+        
+//        adminGenerateReceipt receipt = new adminGenerateReceipt(userID, String.valueOf(amount), updatedBalance);
+          
 
         //updating balance in employees.txt
             String filename = "employees.txt";
@@ -297,7 +296,7 @@ public class adminCustomerTopUp extends javax.swing.JFrame {
                 fw.write(filecontent.toString());
                 fw.close();
                 refreshData();
-            
+                addButtonPressed = true;
         }catch(IOException e){
             JOptionPane.showMessageDialog(null, e.getMessage());
         }catch(Exception e){
@@ -313,14 +312,30 @@ public class adminCustomerTopUp extends javax.swing.JFrame {
     }//GEN-LAST:event_amounttxtKeyReleased
 
     private void generateRecieptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateRecieptActionPerformed
-        adminGenerateReceipt receipt = new adminGenerateReceipt();
-        receipt.setReceiptData(this.userID, this.amountAdded, this.updatedBalance);
-        
-        receipt.generateReceipt();
-        receipt.setVisible(true);
+//        adminGenerateReceipt receipt = new adminGenerateReceipt();
+//        receipt.setReceiptData(this.userID, this.amountAdded, this.updatedBalance);
+//        
+//        receipt.generateReceipt();
+//        receipt.setVisible(true);
+        if(addButtonPressed){
+            generateReceiptBtnAction(this.userID, this.amountAdded, this.updatedBalance);
+        }else if(!addButtonPressed){
+            JOptionPane.showMessageDialog(null, "Please top up amount and then press the Add button first!");
+        }
         
     }//GEN-LAST:event_generateRecieptActionPerformed
 
+    private void generateReceiptBtnAction(String userID, String amountAdded, String updatedBalance){
+        
+
+        
+        adminGenerateReceipt receipt = new adminGenerateReceipt();
+        
+        receipt.generateReceipt(userID, amountAdded, updatedBalance);
+        receipt.setVisible(true);
+        addButtonPressed = false; //resets to require add btn again
+    }
+    
 //dynamically shows the new balance field
     public void  balanceAfterAdding(){
         int amount = 0,sum,currentbalance;

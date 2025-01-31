@@ -16,38 +16,51 @@ public class adminGenerateReceipt extends javax.swing.JFrame {
     private String userID;
     private String amountAdded;
     private String updatedBalance;
+    private boolean receiptSent = false;
     //constructor
+//    public adminGenerateReceipt(String userID, String amountAdded, String updatedBalance) {
+//        initComponents();
+//        this.userID = userID;
+//        this.amountAdded = amountAdded;
+//        this.updatedBalance = updatedBalance;
+//    }
     public adminGenerateReceipt() {
         initComponents();
-    }
+     }
     //methods
     
 //method to set data to store    
-public void setReceiptData(String userID, String amountAdded, String updatedBalance) {
-        this.userID = userID;
-        this.amountAdded = amountAdded;
-        this.updatedBalance = updatedBalance;
-    }
+//public void setReceiptData(String userID, String amountAdded, String updatedBalance) {
+//        this.userID = userID;
+//        this.amountAdded = amountAdded;
+//        this.updatedBalance = updatedBalance;
+//    }
 
 //method to set receipt data
-    private void tranReceiptValues(){
+    private void tranReceiptValues(String userID, String amountAdded, String updatedBalance){
              
         userIDlbl.setText(userID);
         amountAddedlbl.setText(amountAdded);
         updatedBalancelbl.setText(updatedBalance);
         
     }
-public void generateReceipt(){
-    tranReceiptValues();
+    public void generateReceipt(String userID, String amountAdded, String updatedBalance){
+    this.userID = userID;
+    this.amountAdded = amountAdded;
+    this.updatedBalance = updatedBalance;
+
+    // Then call tranReceiptValues to update UI components
+    tranReceiptValues(userID, amountAdded, updatedBalance);
 }
 public void sendCustomerNotification(){
     try{
-        String filename = "customerTopUpNotification.txt";
+            String filename = "customerTopUpNotification.txt";
             FileWriter fw = new FileWriter(filename, true);
             fw.write(
              userID + ";" + amountAdded + ";" + updatedBalance + ";" + "\n"
             );
             fw.close();
+            receiptSent = true;
         }catch(IOException e){
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
@@ -84,7 +97,7 @@ public void sendCustomerNotification(){
         jButton1 = new javax.swing.JButton();
         sendToCustomerbtn = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setText("Transaction Receipt ");
@@ -191,7 +204,11 @@ public void sendCustomerNotification(){
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void sendToCustomerbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendToCustomerbtnActionPerformed
+        if(!receiptSent){
         sendCustomerNotification();
+        }else{
+            JOptionPane.showMessageDialog(this,"Receipt already sent");
+        }
     }//GEN-LAST:event_sendToCustomerbtnActionPerformed
     
     /**
